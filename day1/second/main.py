@@ -1,20 +1,38 @@
 with open("input") as f:
     data = f.readlines()
 
-rotation = 50
+pos = 50
 out = 0
 for rot in data:
-    if rot[0] == "L":
-        rotation -= int(rot[1:])
-        if rotation < 0:
-            out += int(rot[1:])//100
-            rotation = 100*(abs(rotation)//100) + rotation
-    elif rot[0] == "R":
-        rotation += int(rot[1:])
-        if rotation > 99:
-            out+=int(rot[1:])//100
-            rotation = rotation - 100*(abs(rotation)//100)
-    if rotation == 0:
-        out+=1
+    suff = rot[0]
+    if int(rot[1:]) % 100 == 0:
+        out+= int(rot[1:]) // 100
+        continue
+    cycles = int(rot[1:])//100
+    out += cycles
+    rem = int(rot[1:]) % 100
+    print(out, rem, cycles, pos, rot)
+    if suff == "R":
+        pos += rem
+        if pos == 100:
+            out+=1
+            pos = 0
+            continue
+        elif pos > 100:
+            pos -= 100
+            out += 1
+    elif suff == "L":
+        if pos == 0:
+            pos -= rem
+            pos += 100
+            continue
+        pos -= rem
+        if pos == 0:
+            out += 1
+            continue
+        elif pos < 0:
+            pos += 100
+            out += 1
+
 
 print(out)
