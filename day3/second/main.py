@@ -1,5 +1,5 @@
 import re
-with open("test") as f:
+with open("input") as f:
     data = f.readlines()
     data_int = []
     for d in data:
@@ -16,10 +16,9 @@ def find(rem, sub_s, jolt):
             if str(i) in sub_s:
                 top_idx = [match.start() for match in re.finditer(str(i), sub_s) if len(sub_s) - match.start() >= rem]
                 if len(top_idx) >= 1:
-                    sub_s = sub_s[top_idx[-1]+1:]
+                    sub_s = sub_s[top_idx[0]+1:]
                     jolt.append(i)
                     rem -= 1
-                    print(jolt, sub_s)
                     break
 
         return find(rem, sub_s, jolt)
